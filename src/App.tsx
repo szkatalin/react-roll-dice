@@ -1,10 +1,12 @@
 import React from "react";
-import { Box, CSSReset, Text, ThemeProvider } from "@chakra-ui/core";
+import { Box, CSSReset, SimpleGrid, ThemeProvider } from "@chakra-ui/core";
 import { customTheme } from "./theme";
-import RollDice from "./RollDice";
-import { DiceProvider } from "./DiceContext";
+import RollDice from "./components/RollDice";
+import { DiceProvider } from "./contexts/DiceContext";
+import { Nav } from "./components/Nav";
+import { History } from "./components/History";
 
-const App = () => {
+export const App = () => {
   return (
     <ThemeProvider theme={customTheme}>
       <CSSReset />
@@ -16,14 +18,17 @@ const App = () => {
         p={10}
       >
         <DiceProvider>
-          <Text fontSize="6xl" fontWeight="bold" textAlign="center">
-            {"< 🎲 Kockadobás />"}
-          </Text>
-          <RollDice />
+          <Nav />
+          <SimpleGrid columns={2} spacing={10}>
+            <Box>
+              <RollDice />
+            </Box>
+            <Box>
+              <History />
+            </Box>
+          </SimpleGrid>
         </DiceProvider>
       </Box>
     </ThemeProvider>
   );
 };
-
-export default App;

@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Die.css";
-import { DiceContext } from "./DiceContext";
+import { DiceContext } from "../../contexts/DiceContext";
 
 library.add(
   faDiceOne,
@@ -23,11 +23,11 @@ library.add(
 );
 
 const Die = (props: { face: string }) => {
-  const [isRolling] = useContext(DiceContext);
+  const { state } = useContext(DiceContext);
 
   return (
     <FontAwesomeIcon
-      className={isRolling ? "shaking" : ""}
+      className={state.diceData.isRolling ? "shaking" : ""}
       icon={["fas", `dice-${props.face}` as IconName]}
       size="10x"
     />
