@@ -1,7 +1,7 @@
 {
   "name": "roll-dice",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "homepage": "https://szkatalin.github.io/react-roll-dice/",
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
