@@ -1,48 +1,64 @@
-import React, { createContext, Dispatch, useReducer } from "react";
-import {
-  DiceActions,
-  DiceReducer,
-  getRollDiceValues,
-} from "../reducers/DiceReducer";
-import { HistoryReducer, HistoryActions } from "../reducers/HistoryReducer";
+import React, { createContext, useState } from "react";
 
-export type DiceType = {
-  dice: string[];
-  count: number;
-  isRolling: boolean;
+export const sides = ["one", "two", "three", "four", "five", "six"];
+
+export const getRollDiceValues = (count: number): string[] => {
+  return Array.from(
+    { length: count },
+    () => sides[Math.floor(Math.random() * sides.length)]
+  );
 };
 
 type InitialStateType = {
-  diceData: DiceType;
+  dice: string[];
+  roll: () => void;
+  count: number;
+  setCount: (count: number) => void;
+  isRolling: boolean;
   history: string[][];
 };
 
+const initialDice = getRollDiceValues(2);
+
 const initialState = {
-  diceData: { dice: getRollDiceValues(2), count: 2, isRolling: false },
-  history: [],
+  dice: initialDice,
+  roll: () => {},
+  count: 2,
+  setCount: () => {},
+  isRolling: false,
+  history: [initialDice],
 };
 
-export const DiceContext = createContext<{
-  state: InitialStateType;
-  dispatch: Dispatch<DiceActions | HistoryActions>;
-}>({
+export const DiceContext = createContext<{ state: InitialStateType }>({
   state: initialState,
-  dispatch: () => null,
-});
-
-const mainReducer = (
-  { diceData, history }: InitialStateType,
-  action: DiceActions | HistoryActions
-) => ({
-  diceData: DiceReducer(diceData, action),
-  history: HistoryReducer(history, action),
 });
 
 export const DiceProvider = (props: any) => {
-  const [state, dispatch] = useReducer(mainReducer, initialState);
+  const [isRolling, setIsRolling] = useState(false);
+  const [history, setHistory] = useState([initialDice]);
+  const [dice, setDice] = useState(initialDice);
+  const [count, setCount] = useState(2);
+
+  let animateRolling = () => {
+    setIsRolling(true);
+    setTimeout(() => {
+      setIsRolling(false);
+    }, 1000);
+  };
+
+  let roll = (): void => {
+    const newDice = getRollDiceValues(count);
+    setDice(newDice);
+    setHistory([...history.map((h) => h), newDice]);
+    animateRolling();
+  };
 
   return (
-    <DiceContext.Provider value={{ state, dispatch }}>
+    <DiceContext.Provider
+      value={{
+        state: { dice, roll, count, setCount, isRolling, history },
+      }}
+    >
       {props.children}
     </DiceContext.Provider>
   );

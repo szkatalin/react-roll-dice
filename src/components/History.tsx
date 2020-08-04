@@ -1,28 +1,14 @@
 import { Box, List, ListItem } from "@chakra-ui/core";
-import React, { useContext, useEffect } from "react";
-import { DiceContext } from "../contexts/DiceContext";
-import { Types as HistoryTypes } from "../reducers/HistoryReducer";
-import { sides, Types as DiceTypes } from "../reducers/DiceReducer";
+import React, { useContext } from "react";
+import { DiceContext, sides } from "../contexts/DiceContext";
 
 export const History = () => {
-  const { state, dispatch } = useContext(DiceContext);
+  const { state } = useContext(DiceContext);
 
-  useEffect(() => {
-    dispatch({
-      type: HistoryTypes.AddHistory,
-      payload: { history: state.diceData.dice },
-    });
-    setTimeout(() => {
-      dispatch({
-        type: DiceTypes.StopRolling,
-      });
-    }, 1000);
-  }, [dispatch, state.diceData.dice]);
-
-  const getSum = (array: string[]) => {
+  const getSum = (array: string[]): number => {
     let s = 0;
     array.map((item) => {
-      s += sides.indexOf(item) + 1;
+      return (s += sides.indexOf(item) + 1);
     });
     return s;
   };

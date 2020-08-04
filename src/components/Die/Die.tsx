@@ -27,7 +27,7 @@ const Die = (props: { face: string }) => {
 
   return (
     <FontAwesomeIcon
-      className={state.diceData.isRolling ? "shaking" : ""}
+      className={state.isRolling ? "shaking" : ""}
       icon={["fas", `dice-${props.face}` as IconName]}
       size="10x"
     />
