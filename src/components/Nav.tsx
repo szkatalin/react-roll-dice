@@ -30,7 +30,6 @@ export const Nav = () => {
           state.setCount(event.target.value);
         }}
       />
-      {state.count}
       <Text fontSize="6xl" fontWeight="bold" textAlign="center">
         {"} Kockadobás />"}
       </Text>
