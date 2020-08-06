@@ -5,10 +5,12 @@ import { DiceContext, sides } from "../contexts/DiceContext";
 export const History = () => {
   const { state } = useContext(DiceContext);
 
+  const getNumber = (side: string) => sides.indexOf(side) + 1;
+
   const getSum = (array: string[]): number => {
     let s = 0;
     array.map((item) => {
-      return (s += sides.indexOf(item) + 1);
+      return (s += getNumber(item));
     });
     return s;
   };
@@ -38,9 +40,9 @@ export const History = () => {
             {state.history.map((historyItem: string[], index: number) => {
               return (
                 <ListItem key={index}>
-                  {historyItem.map((number, index) => {
+                  {historyItem.map((side, index) => {
                     return (
-                      number +
+                      getNumber(side) +
                       (index !== historyItem.length - 1
                         ? " + "
                         : ` = ${getSum(historyItem)}`)
